@@ -788,34 +788,42 @@ export interface PluginI18NLocale extends Schema.CollectionType {
   };
 }
 
-export interface ApiCategoryCategory extends Schema.CollectionType {
-  collectionName: 'categories';
+export interface ApiCatalogItemCatalogItem extends Schema.CollectionType {
+  collectionName: 'catalog_items';
   info: {
-    singularName: 'category';
-    pluralName: 'categories';
-    displayName: 'Category';
+    singularName: 'catalog-item';
+    pluralName: 'catalog-items';
+    displayName: 'Catalog Items';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    Name: Attribute.String & Attribute.Required & Attribute.Unique;
-    restaurants: Attribute.Relation<
-      'api::category.category',
+    Name: Attribute.String;
+    Description: Attribute.RichText &
+      Attribute.SetMinMaxLength<{
+        maxLength: 300;
+      }>;
+    PriceRUB: Attribute.Decimal;
+    Properties: Attribute.Enumeration<
+      ['brand', 'workTime', 'color', 'article', 'model']
+    >;
+    catalog_sections: Attribute.Relation<
+      'api::catalog-item.catalog-item',
       'manyToMany',
-      'api::restaurant.restaurant'
+      'api::catalog-section.catalog-section'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'api::category.category',
+      'api::catalog-item.catalog-item',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'api::category.category',
+      'api::catalog-item.catalog-item',
       'oneToOne',
       'admin::user'
     > &
@@ -823,35 +831,36 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
   };
 }
 
-export interface ApiRestaurantRestaurant extends Schema.CollectionType {
-  collectionName: 'restaurants';
+export interface ApiCatalogSectionCatalogSection extends Schema.CollectionType {
+  collectionName: 'catalog_sections';
   info: {
-    singularName: 'restaurant';
-    pluralName: 'restaurants';
-    displayName: 'Restaurant';
+    singularName: 'catalog-section';
+    pluralName: 'catalog-sections';
+    displayName: 'Catalog Sections';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    Name: Attribute.String & Attribute.Required & Attribute.Unique;
+    SectionName: Attribute.String;
+    SectionCode: Attribute.String & Attribute.Required & Attribute.Unique;
     Description: Attribute.RichText;
-    categories: Attribute.Relation<
-      'api::restaurant.restaurant',
+    catalog_items: Attribute.Relation<
+      'api::catalog-section.catalog-section',
       'manyToMany',
-      'api::category.category'
+      'api::catalog-item.catalog-item'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'api::restaurant.restaurant',
+      'api::catalog-section.catalog-section',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'api::restaurant.restaurant',
+      'api::catalog-section.catalog-section',
       'oneToOne',
       'admin::user'
     > &
@@ -877,8 +886,8 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'plugin::i18n.locale': PluginI18NLocale;
-      'api::category.category': ApiCategoryCategory;
-      'api::restaurant.restaurant': ApiRestaurantRestaurant;
+      'api::catalog-item.catalog-item': ApiCatalogItemCatalogItem;
+      'api::catalog-section.catalog-section': ApiCatalogSectionCatalogSection;
     }
   }
 }

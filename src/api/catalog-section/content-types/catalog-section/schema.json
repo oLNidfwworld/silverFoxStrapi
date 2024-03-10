@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "catalog_sections",
+  "info": {
+    "singularName": "catalog-section",
+    "pluralName": "catalog-sections",
+    "displayName": "Catalog Sections"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "SectionName": {
+      "type": "string"
+    },
+    "SectionCode": {
+      "type": "string",
+      "unique": true,
+      "required": true
+    },
+    "Description": {
+      "type": "richtext"
+    },
+    "catalog_items": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::catalog-item.catalog-item",
+      "inversedBy": "catalog_sections"
+    }
+  }
+}
