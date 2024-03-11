@@ -362,6 +362,88 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
+export interface ApiCatalogItemCatalogItem extends Schema.CollectionType {
+  collectionName: 'catalog_items';
+  info: {
+    singularName: 'catalog-item';
+    pluralName: 'catalog-items';
+    displayName: 'Catalog Items';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Name: Attribute.String;
+    Description: Attribute.RichText &
+      Attribute.SetMinMaxLength<{
+        maxLength: 300;
+      }>;
+    PriceRUB: Attribute.Decimal;
+    Properties: Attribute.Enumeration<
+      ['brand', 'workTime', 'color', 'article', 'model']
+    >;
+    catalog_sections: Attribute.Relation<
+      'api::catalog-item.catalog-item',
+      'manyToMany',
+      'api::catalog-section.catalog-section'
+    >;
+    slug: Attribute.UID<'api::catalog-item.catalog-item', 'Name'>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::catalog-item.catalog-item',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::catalog-item.catalog-item',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiCatalogSectionCatalogSection extends Schema.CollectionType {
+  collectionName: 'catalog_sections';
+  info: {
+    singularName: 'catalog-section';
+    pluralName: 'catalog-sections';
+    displayName: 'Catalog Sections';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    SectionName: Attribute.String;
+    SectionCode: Attribute.String & Attribute.Required & Attribute.Unique;
+    Description: Attribute.RichText;
+    catalog_items: Attribute.Relation<
+      'api::catalog-section.catalog-section',
+      'manyToMany',
+      'api::catalog-item.catalog-item'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::catalog-section.catalog-section',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::catalog-section.catalog-section',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -788,86 +870,6 @@ export interface PluginI18NLocale extends Schema.CollectionType {
   };
 }
 
-export interface ApiCatalogItemCatalogItem extends Schema.CollectionType {
-  collectionName: 'catalog_items';
-  info: {
-    singularName: 'catalog-item';
-    pluralName: 'catalog-items';
-    displayName: 'Catalog Items';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    Name: Attribute.String;
-    Description: Attribute.RichText &
-      Attribute.SetMinMaxLength<{
-        maxLength: 300;
-      }>;
-    PriceRUB: Attribute.Decimal;
-    Properties: Attribute.Enumeration<
-      ['brand', 'workTime', 'color', 'article', 'model']
-    >;
-    catalog_sections: Attribute.Relation<
-      'api::catalog-item.catalog-item',
-      'manyToMany',
-      'api::catalog-section.catalog-section'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::catalog-item.catalog-item',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::catalog-item.catalog-item',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiCatalogSectionCatalogSection extends Schema.CollectionType {
-  collectionName: 'catalog_sections';
-  info: {
-    singularName: 'catalog-section';
-    pluralName: 'catalog-sections';
-    displayName: 'Catalog Sections';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    SectionName: Attribute.String;
-    SectionCode: Attribute.String & Attribute.Required & Attribute.Unique;
-    Description: Attribute.RichText;
-    catalog_items: Attribute.Relation<
-      'api::catalog-section.catalog-section',
-      'manyToMany',
-      'api::catalog-item.catalog-item'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::catalog-section.catalog-section',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::catalog-section.catalog-section',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -878,6 +880,8 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
+      'api::catalog-item.catalog-item': ApiCatalogItemCatalogItem;
+      'api::catalog-section.catalog-section': ApiCatalogSectionCatalogSection;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
@@ -886,8 +890,6 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'plugin::i18n.locale': PluginI18NLocale;
-      'api::catalog-item.catalog-item': ApiCatalogItemCatalogItem;
-      'api::catalog-section.catalog-section': ApiCatalogSectionCatalogSection;
     }
   }
 }

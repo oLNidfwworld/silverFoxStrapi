@@ -4,7 +4,8 @@
   "info": {
     "singularName": "catalog-item",
     "pluralName": "catalog-items",
-    "displayName": "Catalog Items"
+    "displayName": "Catalog Items",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -36,6 +37,10 @@
       "relation": "manyToMany",
       "target": "api::catalog-section.catalog-section",
       "mappedBy": "catalog_items"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "Name"
     }
   }
 }
