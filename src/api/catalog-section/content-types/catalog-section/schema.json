@@ -4,20 +4,16 @@
   "info": {
     "singularName": "catalog-section",
     "pluralName": "catalog-sections",
-    "displayName": "Catalog Sections"
+    "displayName": "Catalog Sections",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "SectionName": {
+    "Name": {
       "type": "string"
-    },
-    "SectionCode": {
-      "type": "string",
-      "unique": true,
-      "required": true
     },
     "Description": {
       "type": "richtext"
@@ -26,6 +22,27 @@
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::catalog-item.catalog-item",
+      "inversedBy": "catalog_sections"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "Name"
+    },
+    "Image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "catalog_root_section": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::catalog-root-section.catalog-root-section",
       "inversedBy": "catalog_sections"
     }
   }

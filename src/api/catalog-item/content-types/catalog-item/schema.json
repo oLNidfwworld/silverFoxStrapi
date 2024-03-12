@@ -16,21 +16,10 @@
       "type": "string"
     },
     "Description": {
-      "type": "richtext",
-      "maxLength": 300
+      "type": "richtext"
     },
     "PriceRUB": {
       "type": "decimal"
-    },
-    "Properties": {
-      "type": "enumeration",
-      "enum": [
-        "brand",
-        "workTime",
-        "color",
-        "article",
-        "model"
-      ]
     },
     "catalog_sections": {
       "type": "relation",
@@ -41,6 +30,16 @@
     "slug": {
       "type": "uid",
       "targetField": "Name"
+    },
+    "Image": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
     }
   }
 }

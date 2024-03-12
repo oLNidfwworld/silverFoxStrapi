@@ -1,0 +1,38 @@
+{
+  "kind": "collectionType",
+  "collectionName": "catalog_root_sections",
+  "info": {
+    "singularName": "catalog-root-section",
+    "pluralName": "catalog-root-sections",
+    "displayName": "Catalog root sections"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Name": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "Name"
+    },
+    "Image": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "catalog_sections": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::catalog-section.catalog-section",
+      "mappedBy": "catalog_root_section"
+    }
+  }
+}

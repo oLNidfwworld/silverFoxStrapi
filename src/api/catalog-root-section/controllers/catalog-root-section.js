@@ -8,19 +8,17 @@ const { createCoreController } = require('@strapi/strapi').factories;
  
 
 module.exports = createCoreController(
-    "api::catalog-section.catalog-section",
+    "api::catalog-root-section.catalog-root-section",
     ({ strapi }) => ({
       async findOne(ctx) {  
           const { slug } = ctx.params; 
-          const { query } = ctx; 
-          console.log(this);
+          const { query } = ctx;  
           if (!query.filters) query.filters = {}
           query.filters.slug = { '$eq': slug }
           query.populate = [
-            'Image',
-            'catalog_items'
+            'catalog_sections'
           ];
-          const entity = await strapi.service('api::catalog-section.catalog-section').find(query);
+          const entity = await strapi.service('api::catalog-root-section.catalog-root-section').find(query);
           const { results } = await this.sanitizeOutput(entity, ctx); 
           return this.transformResponse(results[0]);
       },
