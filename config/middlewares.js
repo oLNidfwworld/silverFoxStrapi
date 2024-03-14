@@ -7,7 +7,7 @@ module.exports = [
     config: {
       enabled: true,
       headers: '*',
-      origin: ['http://localhost:1338', 'http://localhost:3000  ']
+      origin: ['http://localhost:1338', 'http://localhost:3000', 'loving-harmony-5560abb005.strapiapp.com']
     }
   },
   'strapi::poweredBy',
