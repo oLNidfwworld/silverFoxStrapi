@@ -23,22 +23,27 @@ module.exports = createCoreController(
 
       query.populate = {
         catalog_sections: {
-          populate: "catalog_items",
+          populate: [
+            'Image',
+            'catalog_items.Image', 
+          ], 
         },
       };
 
+       
       const entity = await strapi
         .service("api::catalog-root-section.catalog-root-section")
-        .find(query);
-
+        .find(query); 
+    
       const { results } = await this.sanitizeOutput(entity, ctx);
       const response = this.transformResponse(results[0]);
 
       let itemsArray = [];
       if (response?.data) {
         response.data.attributes.catalog_sections.data.map((sectionObject) => {
-          sectionObject.attributes.catalog_items.data.map((itemsObject) =>
-            itemsArray.push(itemsObject)
+          sectionObject.attributes.catalog_items.data.map((itemsObject) => { 
+            itemsArray.push(itemsObject);
+          }
           );
           delete sectionObject.attributes.catalog_items;
         });
