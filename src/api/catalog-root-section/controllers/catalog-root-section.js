@@ -15,12 +15,6 @@ module.exports = createCoreController(
       if (!query.filters) query.filters = {};
       query.filters.slug = { $eq: slug };
 
-      //   query.populate = [
-      //     'catalog_sections'
-      //   ];
-
-      // ?populate[catalog_sections][populate]=catalog_items
-
       query.populate = {
         catalog_sections: {
           populate: [
@@ -51,6 +45,13 @@ module.exports = createCoreController(
           data: itemsArray,
         };
       }
+
+      response.path = [
+        {
+          name : response.data.attributes.Name,
+          to : '/catalog/' + response.data.attributes.slug
+        },
+      ]   
 
       return response;
     },

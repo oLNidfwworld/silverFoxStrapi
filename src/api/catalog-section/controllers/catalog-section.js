@@ -35,7 +35,21 @@ module.exports = createCoreController(
         .service("api::catalog-section.catalog-section")
         .find(query);
       const { results } = await this.sanitizeOutput(entity, ctx);
-      return this.transformResponse(results[0]);
+
+      const response = this.transformResponse(results[0]);
+
+      response.path = [
+        {
+          name : response.data.attributes.catalog_root_section.data.attributes.Name,
+          to : '/catalog/' + response.data.attributes.catalog_root_section.data.attributes.slug
+        },
+        {
+          name : response.data.attributes.Name,
+          to : '/catalog/' + response.data.attributes.catalog_root_section.data.attributes.slug + '/' + response.data.attributes.slug
+        },
+      ]   
+
+      return response;
     },
   })
 );

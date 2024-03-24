@@ -22,7 +22,26 @@ module.exports = createCoreController(
         const entity = await strapi.service('api::catalog-item.catalog-item').find(query);
         const { results } = await this.sanitizeOutput(entity, ctx);
 
-        return this.transformResponse(results[0]);
+        const response = this.transformResponse(results[0]);
+        const rootSectionSlug = response.data.attributes.catalog_sections.data[0].attributes.catalog_root_section.data.attributes.slug;
+        const sectionSlug = response.data.attributes.catalog_sections.data[0].attributes.slug;
+        const itemSlug = response.data.attributes.slug;
+        response.path = [ 
+          {
+            name : response.data.attributes.catalog_sections.data[0].attributes.catalog_root_section.data.attributes.Name,
+            to : '/catalog/' + rootSectionSlug,
+          },
+          {
+            name : response.data.attributes.catalog_sections.data[0].attributes.Name,
+            to : '/catalog/' + rootSectionSlug + '/' + sectionSlug,
+          }, 
+          {
+            name : response.data.attributes.Name,
+            to : '/catalog/' + rootSectionSlug + '/' + sectionSlug + '/' + itemSlug,
+          },
+        ]   
+
+        return response;
     },
   })
 );
