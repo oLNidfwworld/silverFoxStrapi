@@ -810,6 +810,8 @@ export interface ApiCatalogItemCatalogItem extends Schema.CollectionType {
     >;
     slug: Attribute.UID<'api::catalog-item.catalog-item', 'Name'>;
     Image: Attribute.Media;
+    Bestseller: Attribute.Boolean;
+    Best_choise: Attribute.Boolean;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

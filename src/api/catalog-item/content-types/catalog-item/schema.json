@@ -32,14 +32,21 @@
       "targetField": "Name"
     },
     "Image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
+    },
+    "Bestseller": {
+      "type": "boolean"
+    },
+    "Best_choise": {
+      "type": "boolean"
     }
   }
 }
