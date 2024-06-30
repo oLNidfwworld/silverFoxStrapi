@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_brands_brands_rows",
+  "info": {
+    "displayName": "BrandsRow",
+    "icon": "dashboard"
+  },
+  "options": {},
+  "attributes": {
+    "Imagees": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": true
+    }
+  }
+}
