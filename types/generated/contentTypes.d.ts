@@ -945,6 +945,45 @@ export interface ApiCatalogSectionCatalogSection extends Schema.CollectionType {
   };
 }
 
+export interface ApiReviewReview extends Schema.CollectionType {
+  collectionName: 'reviews';
+  info: {
+    singularName: 'review';
+    pluralName: 'reviews';
+    displayName: 'Reviews';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Text: Attribute.Text;
+    Author: Attribute.String;
+    Rating: Attribute.Integer &
+      Attribute.SetMinMax<
+        {
+          min: 1;
+          max: 5;
+        },
+        number
+      >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::review.review',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::review.review',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -967,6 +1006,7 @@ declare module '@strapi/types' {
       'api::catalog-item.catalog-item': ApiCatalogItemCatalogItem;
       'api::catalog-root-section.catalog-root-section': ApiCatalogRootSectionCatalogRootSection;
       'api::catalog-section.catalog-section': ApiCatalogSectionCatalogSection;
+      'api::review.review': ApiReviewReview;
     }
   }
 }
