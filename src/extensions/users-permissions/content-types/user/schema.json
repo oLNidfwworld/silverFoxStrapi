@@ -64,6 +64,14 @@
       "target": "plugin::users-permissions.role",
       "inversedBy": "users",
       "configurable": false
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "secondName": {
+      "type": "string",
+      "required": true
     }
   }
 }
