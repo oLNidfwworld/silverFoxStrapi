@@ -33,23 +33,24 @@ module.exports = createCoreController(
       const response = this.transformResponse(results[0]);
 
       let itemsArray = [];
+      console.log(response?.data.catalog_sections)
       if (response?.data) {
-        response.data.attributes.catalog_sections.data.map((sectionObject) => {
-          sectionObject.attributes.catalog_items.data.map((itemsObject) => { 
+        response.data.catalog_sections.map((sectionObject) => { 
+          sectionObject.catalog_items.map((itemsObject) => { 
             itemsArray.push(itemsObject);
           }
           );
-          delete sectionObject.attributes.catalog_items;
+          delete sectionObject.catalog_items;
         });
-        response.data.attributes.catalog_items = {
+        response.data.catalog_items = {
           data: itemsArray,
         };
       }
 
       response.path = [
         {
-          name : response.data.attributes.Name,
-          to : '/catalog/' + response.data.attributes.slug
+          name : response.data.Name,
+          to : '/catalog/' + response.data.slug
         },
       ]   
 
