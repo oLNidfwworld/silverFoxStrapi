@@ -40,12 +40,12 @@ module.exports = createCoreController(
 
       response.path = [
         {
-          name : response.data.attributes.catalog_root_section.data.attributes.Name,
-          to : '/catalog/' + response.data.attributes.catalog_root_section.data.attributes.slug
+          name : response.data.catalog_root_section.Name,
+          to : '/catalog/' + response.data.catalog_root_section.slug
         },
         {
-          name : response.data.attributes.Name,
-          to : '/catalog/' + response.data.attributes.catalog_root_section.data.attributes.slug + '/' + response.data.attributes.slug
+          name : response.data.Name,
+          to : '/catalog/' + response.data.catalog_root_section.slug + '/' + response.slug
         },
       ]   
 

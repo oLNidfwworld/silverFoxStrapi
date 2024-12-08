@@ -23,20 +23,20 @@ module.exports = createCoreController(
         const { results } = await this.sanitizeOutput(entity, ctx);
 
         const response = this.transformResponse(results[0]);
-        const rootSectionSlug = response.data.attributes.catalog_sections.data[0].attributes.catalog_root_section.data.attributes.slug;
-        const sectionSlug = response.data.attributes.catalog_sections.data[0].attributes.slug;
-        const itemSlug = response.data.attributes.slug;
+        const rootSectionSlug = response.data.catalog_sections[0].catalog_root_section.slug;
+        const sectionSlug = response.data.catalog_sections[0].slug;
+        const itemSlug = response.data.slug;
         response.path = [ 
           {
-            name : response.data.attributes.catalog_sections.data[0].attributes.catalog_root_section.data.attributes.Name,
+            name : response.data.catalog_sections[0].catalog_root_section.Name,
             to : '/catalog/' + rootSectionSlug,
           },
           {
-            name : response.data.attributes.catalog_sections.data[0].attributes.Name,
+            name : response.data.catalog_sections[0].Name,
             to : '/catalog/' + rootSectionSlug + '/' + sectionSlug,
           }, 
           {
-            name : response.data.attributes.Name,
+            name : response.data.Name,
             to : '/catalog/' + rootSectionSlug + '/' + sectionSlug + '/' + itemSlug,
           },
         ]   
