@@ -1,12 +1,7 @@
-"use strict";
+// @ts-nocheck
+import { factories } from "@strapi/strapi";
 
-/**
- * catalog-section controller
- */
-
-const { createCoreController } = require("@strapi/strapi").factories;
-
-module.exports = createCoreController(
+export default factories.createCoreController(
   "api::catalog-root-section.catalog-root-section",
   ({ strapi }) => ({
     async findOne(ctx) {
