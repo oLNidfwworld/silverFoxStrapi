@@ -1,5 +1,16 @@
 export default function(plugin){
-    console.log(plugin);
+  plugin.controllers.user.testMethod = ( ctx ) => {
+    console.log(ctx);
+    return ctx
+  }  
+  plugin.routes['content-api'].routes.push({
+    method: 'POST',
+    path: '/user/test-method',
+    handler: 'user.testMethod',
+    config: {
+      prefix: ''
+    }
+  });
   //   plugin.controllers.user.addToCart = async (ctx) => {
   //     if (!ctx.state.user || !ctx.state.user.id) {
   //       return (ctx.response.status = 401);
@@ -31,25 +42,25 @@ export default function(plugin){
   //       policies: [],
   //     },
   //   });
-    const register = plugin.controllers.auth.register;
+    // const register = plugin.controllers.auth.register;
 
-    plugin.controllers.auth.register = async (ctx) => { 
-      await register(ctx)
+    // plugin.controllers.auth.register = async (ctx) => { 
+    //   await register(ctx)
     
-      // then get userId from register response 
-      const userId = ctx.response.body.user.id
-      console.log(userId);
-      // save custom data registration with update service
-      const user = await strapi.entityService.update('plugin::users-permissions.user', userId, {
-        data: {
-          name: ctx.request.body.name,
-          seconName: ctx.request.body.seconName,
-       },
-      });
+    //   // then get userId from register response 
+    //   const userId = ctx.response.body.user.id
+    //   console.log(userId);
+    //   // save custom data registration with update service
+    //   const user = await strapi.entityService.update('plugin::users-permissions.user', userId, {
+    //     data: {
+    //       name: ctx.request.body.name,
+    //       seconName: ctx.request.body.seconName,
+    //    },
+    //   });
     
-      // return the response as you want
-      ctx.body = { data: `Congrats ${user.name}! your account has registered successfully.` }
-    }
+    //   // return the response as you want
+    //   ctx.body = { data: `Congrats ${user.name}! your account has registered successfully.` }
+    // }
   
     return plugin;
   };
